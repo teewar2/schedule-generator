@@ -36,18 +36,16 @@ namespace Domain.Conversions
 
     public class AdditionalMeetingInfo
     {
-        public List<HashSet<HashSet<MeetingGroup>>> possibleGroups;
-        public HashSet<WeekType> possibleWeekType;
-        //public List<HashSet<DayOfWeek>> possibleDays;
-        //public List<HashSet<int>> possibleIndexes;
+        public List<List<HashSet<MeetingGroup>>> possibleGroups;
+        public List<WeekType> possibleWeekType;
         public List<HashSet<MeetingTime>> possibleMeetingTimes;
         public AdditionalMeetingInfo(Requisition requisition)
         {
             // groups
-            possibleGroups = new List<HashSet<HashSet<MeetingGroup>>>();
+            possibleGroups = new List<List<HashSet<MeetingGroup>>>();
             foreach (var groupRequisition in requisition.GroupPriorities)
             {
-                possibleGroups.Add(new HashSet<HashSet<MeetingGroup>>());
+                possibleGroups.Add(new List<HashSet<MeetingGroup>>());
                 foreach (var groupChoice in groupRequisition.GroupsChoices)
                 {
                     possibleGroups[possibleGroups.Count - 1].Add(
@@ -58,11 +56,11 @@ namespace Domain.Conversions
             // week type (even/odd)
             if (requisition.WeekType == WeekType.Any)
             {
-                possibleWeekType = new HashSet<WeekType>() { WeekType.Even, WeekType.Odd };
+                possibleWeekType = new List<WeekType>() { WeekType.Even, WeekType.Odd };
             }
             else
             {
-                possibleWeekType = new HashSet<WeekType>() { requisition.WeekType };
+                possibleWeekType = new List<WeekType>() { requisition.WeekType };
             }
 
             // week days
